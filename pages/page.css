@@ -1,0 +1,18 @@
+.done-true {
+    text-decoration: line-through;
+    color: grey;
+}
+
+.crd-selectable {
+	border-style:double;
+	border-width:5px;
+	padding:5px;
+	background-color:yellow;
+}
+
+.crd-selected {
+	border-style:double;
+	border-width:5px;
+	padding:5px;
+	background-color:red;
+}

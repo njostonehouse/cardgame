@@ -1,0 +1,12 @@
+{
+    "name": "cardgame",
+    "version": "0.0.1",
+    "dependencies": {
+		"express": "",
+		"socket.io": "",
+		"underscore": "",
+		"requirejs": "",
+		"angular": ""
+    },
+    "main": "server.js"
+}
