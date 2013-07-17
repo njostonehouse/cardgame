@@ -33,13 +33,17 @@ var playerById = function( id ) {
 
 var sockets = []
 
-var sendCardState = function( player, card ) {
+var emit = function( event, data ) {
 	_.each(
 		sockets,
 		function(socket) {
-			socket.emit( 'card-state', { player: player, card: card } )
+			socket.emit( event, data )
 		}
 	)
+}
+
+var sendCardState = function( player, card ) {
+	emit( 'card-state', { player: player, card: card } )
 }
 
 var onSelectCard = function(data) {
@@ -49,6 +53,15 @@ var onSelectCard = function(data) {
 		function(thisCard) {
 			thisCard.selected = (thisCard.id == data.cardId)
 			sendCardState( player, thisCard )
+		}
+	)
+}
+
+var unselectCards = function(player) {
+	_.each(
+		player.cards,
+		function(card) {
+			card.selected = false
 		}
 	)
 }
@@ -73,5 +86,19 @@ app.use( express.static('pages') )
 var port = process.env.PORT || process.env.VCAP_APP_PORT || 8000
 
 http.listen(port)
+
+var turnState = { remaining: 15 }
+
+var oneSecond = function() {
+	turnState.remaining -= 1
+	if ( turnState.remaining <= 0 ) {
+		turnState.remaining = 15
+		_.each( players, unselectCards )
+		emit( 'players', players )
+	}
+	emit( 'turn-pulse', turnState )
+}
+
+setInterval( oneSecond, 1000 )
 
 console.log('Server running on port ' + port)
