@@ -16,3 +16,11 @@
 	padding:5px;
 	background-color:red;
 }
+
+.trn-timer-end-near {
+	color:red;
+	font-weight:bold;
+}
+
+.trn-timer-end-far {
+}

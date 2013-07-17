@@ -7,7 +7,9 @@
 		<link rel="stylesheet" href="page.css">
 	</head>
 	<body>	
-		<div ng-controller="turnTimerController">Turn time remaining: {{turnTimeRemaining}}</div>
+		<div ng-controller="turnTimerController">
+			Turn time remaining: <span class="trn-timer-end-{{backgroundClass()}}">{{turnTimeRemaining}}</span>
+		</div>
 		<div ng-controller="playersController">
 			<table>
 				<tr ng-repeat="player in players">

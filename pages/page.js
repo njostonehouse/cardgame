@@ -5,6 +5,11 @@ function turnTimerController($scope) {
 		$scope.turnTimeRemaining = data.remaining
 		$scope.$apply()
 	})
+
+	$scope.backgroundClass = function() {
+		return $scope.turnTimeRemaining <= 5 ? 'near' : 'far'
+	}
+	
 }
 
 function playersController($scope) {
