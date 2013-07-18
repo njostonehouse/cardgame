@@ -19,6 +19,9 @@ var players = {
 	],
 	findById: function( id ) {
 		return _.find( players.list, function(player) { return player.id == id } )
+	},
+	unselectCards: function() {
+		_.each( players.list, function(player) { player.state.selectedCard = null } )
 	}
 }
 
@@ -39,14 +42,8 @@ var onSelectCard = function(data) {
 	emit( 'player-state', player )
 }
 
-var unselectCards = function(player) {
-	player.state.selectedCard = null
-	_.each(
-		player.cards,
-		function(card) {
-			card.selected = false
-		}
-	)
+var unselectCard = function(player) {
+	
 }
 
 var onDisconnect = function(socket) {
@@ -78,7 +75,7 @@ var oneSecond = function() {
 	turnState.remaining -= 1
 	if ( turnState.remaining <= 0 ) {
 		turnState.remaining = 15
-		_.each( players.list, unselectCards )
+		players.unselectCards()
 		emit( 'players', players.list )
 	}
 	emit( 'turn-pulse', turnState )
