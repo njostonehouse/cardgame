@@ -10,15 +10,16 @@ var io = ioModule.listen(http, { log: false })
 
 var cards = require('./cards')
 
-var players = { list: [
-				{ id: 0, name: "Carl", row: 0, cardIds: [ 0, 1 ], state: { selectedCard: null } },
-				{ id: 1, name: "Noel", row: 1, cardIds: [ 1, 2 ], state: { selectedCard: null } },
-				{ id: 2, name: "Sean", row: 0, cardIds: [ 2, 3 ], state: { selectedCard: null } },
-				{ id: 3, name: "Mike", row: 0, cardIds: [ 3, 4 ], state: { selectedCard: null } },
-			] }
-		
-var playerById = function( id ) {
-	return _.find( players.list, function(player) { return player.id == id } )
+var players = {
+	list: [
+		{ id: 0, name: "Carl", row: 0, cardIds: [ 0, 1 ], state: { selectedCard: null } },
+		{ id: 1, name: "Noel", row: 1, cardIds: [ 1, 2 ], state: { selectedCard: null } },
+		{ id: 2, name: "Sean", row: 0, cardIds: [ 2, 3 ], state: { selectedCard: null } },
+		{ id: 3, name: "Mike", row: 0, cardIds: [ 3, 4 ], state: { selectedCard: null } },
+	],
+	findById: function( id ) {
+		return _.find( players.list, function(player) { return player.id == id } )
+	}
 }
 
 var sockets = []
@@ -33,7 +34,7 @@ var emit = function( event, data ) {
 }
 
 var onSelectCard = function(data) {
-	var player = playerById( data.playerId )
+	var player = players.findById( data.playerId )
 	player.state.selectedCard = data.cardId
 	emit( 'player-state', player )
 }
