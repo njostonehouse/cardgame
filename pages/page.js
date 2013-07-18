@@ -30,12 +30,12 @@ function playersController($scope) {
 		console.log( 'player-state' )
 		var player = _.find( $scope.players, function(player) { return player.id == data.id } )
 		player.state = data.state
+		$scope.$apply()
 	})
 	
 	$scope.players = []
 
 	$scope.select = function(player, cardId) {
-		player.state.selectedCard = cardId
 		var message = { playerId: player.id, cardId: cardId }
 		socket.emit('select-card', message )
 	}
