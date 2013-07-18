@@ -17,7 +17,7 @@
 						{{player.name}}
 					</td>
 					<td ng-repeat="card in player.cards">
-						<div class="crd-{{card.state()}}" ng-click="select(player, card)">{{card.name}}</div>
+						<div class="crd-{{cardState(player, card)}}" ng-click="select(player, card)">{{card.name}}</div>
 					</td>
 				</tr>
 			</table>

@@ -33,11 +33,21 @@ function playersController($scope) {
 		$scope.$apply()
 	})
 	
+	socket.on( 'player-state', function(data) {
+		var player = _.find( $scope.players, function(player) { return player.id == data.id } )
+		player.state = data.state
+		console.log( '' + player.id + ' selected card ' + player.state.selectedCard )
+	})
+	
 	$scope.players = []
 
 	$scope.select = function(player, card) {
 		var message = { player: player, playerId: player.id, cardId: card.id, card: card }
 		socket.emit('select-card', message )
 		
+	}
+	
+	$scope.cardState = function(player, card) {
+		return card.id == player.state.selectedCard ? 'selected' : 'selectable'
 	}
 }

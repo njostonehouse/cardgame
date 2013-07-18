@@ -22,10 +22,10 @@ cards = _.map( cards, function(card) {
 })
 
 var players = [
-				{ id: 0, name: "Carl", row: 0, cards: [ cards[0], cards[1] ] },
-				{ id: 1, name: "Noel", row: 1, cards: [ cards[1], cards[2] ] },
-				{ id: 2, name: "Sean", row: 0, cards: [ cards[2], cards[3] ] },
-				{ id: 3, name: "Mike", row: 0, cards: [ cards[3], cards[4] ] },
+				{ id: 0, name: "Carl", row: 0, cards: [ cards[0], cards[1] ], state: { selectedCard: null } },
+				{ id: 1, name: "Noel", row: 1, cards: [ cards[1], cards[2] ], state: { selectedCard: null } },
+				{ id: 2, name: "Sean", row: 0, cards: [ cards[2], cards[3] ], state: { selectedCard: null } },
+				{ id: 3, name: "Mike", row: 0, cards: [ cards[3], cards[4] ], state: { selectedCard: null } },
 			]
 var playerById = function( id ) {
 	return _.find( players, function(player) { return player.id == id } )
@@ -48,6 +48,8 @@ var sendCardState = function( player, card ) {
 
 var onSelectCard = function(data) {
 	var player = playerById( data.playerId )
+	player.state.selectedCard = data.cardId
+	emit( 'player-state', player )
 	_.each(
 		player.cards,
 		function(thisCard) {
@@ -58,6 +60,7 @@ var onSelectCard = function(data) {
 }
 
 var unselectCards = function(player) {
+	player.state.selectedCard = null
 	_.each(
 		player.cards,
 		function(card) {
