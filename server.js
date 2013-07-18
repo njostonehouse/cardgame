@@ -13,10 +13,11 @@ var cards = require('./cards')
 var players = require('./players')
 
 var onConnect = function(socket) {
-	socket.emit( 'players', players.list )
-	socket.emit( 'cards', cards )
-	socket.emit( 'turn-pulse', turnState )
 	socket.on( 'select-card', onSelectCard )
+
+	socket.emit( 'cards', cards )
+	socket.emit( 'players', players.list )
+	socket.emit( 'turn-pulse', turnTimer )
 }
 
 var sockets = require('./sockets')( io, onConnect )
@@ -27,23 +28,16 @@ var onSelectCard = function(data) {
 	sockets.broadcast( 'player-state', player )
 }
 
-var turnState = { remaining: 15 }
+var oneSecond = function(turnTimer) {
+	sockets.broadcast( 'turn-pulse', turnTimer )
+}
 
 var endTurn = function() {
-	turnState.remaining = 15
 	players.unselectCards()
 	sockets.broadcast( 'players', players.list )
 }
 
-var oneSecond = function() {
-	turnState.remaining -= 1
-	if ( turnState.remaining <= 0 ) {
-		endTurn()
-	}
-	sockets.broadcast( 'turn-pulse', turnState )
-}
-
-setInterval( oneSecond, 1000 )
+var turnTimer = require('./turnTimer')( oneSecond, endTurn )
 
 app.use( express.bodyParser() )
 app.use( express.static('pages') )
