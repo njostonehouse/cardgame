@@ -14,7 +14,7 @@ var players = require('./players')
 
 var sockets = []
 
-var emit = function( event, data ) {
+var broadcast = function( event, data ) {
 	_.each(
 		sockets,
 		function(socket) {
@@ -26,18 +26,18 @@ var emit = function( event, data ) {
 var onSelectCard = function(data) {
 	var player = players.findById( data.playerId )
 	player.state.selectedCard = data.cardId
-	emit( 'player-state', player )
+	broadcast( 'player-state', player )
 }
 
 var onDisconnect = function(socket) {
-	sockets = _.without( sockets, socket )
+	sockets.splice( sockets.indexOf(socket), 1 )
 }
 
 var turnState = { remaining: 15 }
 
 var onConnect = function(socket) {
 	sockets.push( socket )
-	socket.on( 'disconnect', _.bind( onDisconnect, socket ) )
+	socket.on( 'disconnect', _.partial( onDisconnect, socket ) )
 
 	socket.emit( 'players', players.list )
 	socket.emit( 'cards', cards )
@@ -57,7 +57,7 @@ http.listen(port)
 var endTurn = function() {
 	turnState.remaining = 15
 	players.unselectCards()
-	emit( 'players', players.list )
+	broadcast( 'players', players.list )
 }
 
 var oneSecond = function() {
@@ -65,7 +65,7 @@ var oneSecond = function() {
 	if ( turnState.remaining <= 0 ) {
 		endTurn()
 	}
-	emit( 'turn-pulse', turnState )
+	broadcast( 'turn-pulse', turnState )
 }
 
 setInterval( oneSecond, 1000 )
