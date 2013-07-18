@@ -34,11 +34,7 @@ function playersController($scope) {
 	})
 	
 	$scope.players = []
-	
-	$scope.addPlayer = function() {
-		socket.emit('add-player', $scope.newPlayerName)
-	}
-	
+
 	$scope.select = function(player, card) {
 		var message = { player: player, playerId: player.id, cardId: card.id, card: card }
 		socket.emit('select-card', message )
