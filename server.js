@@ -29,10 +29,6 @@ var onSelectCard = function(data) {
 	emit( 'player-state', player )
 }
 
-var unselectCard = function(player) {
-	
-}
-
 var onDisconnect = function(socket) {
 	sockets = _.without( sockets, socket )
 }
@@ -58,12 +54,16 @@ var port = process.env.PORT || process.env.VCAP_APP_PORT || 8000
 
 http.listen(port)
 
+var endTurn = function() {
+	turnState.remaining = 15
+	players.unselectCards()
+	emit( 'players', players.list )
+}
+
 var oneSecond = function() {
 	turnState.remaining -= 1
 	if ( turnState.remaining <= 0 ) {
-		turnState.remaining = 15
-		players.unselectCards()
-		emit( 'players', players.list )
+		endTurn()
 	}
 	emit( 'turn-pulse', turnState )
 }
