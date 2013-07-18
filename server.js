@@ -16,11 +16,6 @@ var cards = [
 	{ id: 4, name: "Defend" }
 ]
 
-cards = _.map( cards, function(card) {
-	card.selected = false
-	return card
-})
-
 var players = [
 				{ id: 0, name: "Carl", row: 0, cards: [ cards[0], cards[1] ], state: { selectedCard: null } },
 				{ id: 1, name: "Noel", row: 1, cards: [ cards[1], cards[2] ], state: { selectedCard: null } },
@@ -42,21 +37,10 @@ var emit = function( event, data ) {
 	)
 }
 
-var sendCardState = function( player, card ) {
-	emit( 'card-state', { player: player, card: card } )
-}
-
 var onSelectCard = function(data) {
 	var player = playerById( data.playerId )
 	player.state.selectedCard = data.cardId
 	emit( 'player-state', player )
-	_.each(
-		player.cards,
-		function(thisCard) {
-			thisCard.selected = (thisCard.id == data.cardId)
-			sendCardState( player, thisCard )
-		}
-	)
 }
 
 var unselectCards = function(player) {
@@ -73,11 +57,14 @@ var onDisconnect = function(socket) {
 	sockets = _.without( sockets, socket )
 }
 
+var turnState = { remaining: 15 }
+
 var onConnect = function(socket) {
 	sockets.push( socket )
 	socket.on( 'disconnect', _.bind( onDisconnect, socket ) )
 
 	socket.emit( 'players', players )
+	socket.emit( 'turn-pulse', turnState )
 	socket.on( 'select-card', onSelectCard )
 }
 
@@ -89,8 +76,6 @@ app.use( express.static('pages') )
 var port = process.env.PORT || process.env.VCAP_APP_PORT || 8000
 
 http.listen(port)
-
-var turnState = { remaining: 15 }
 
 var oneSecond = function() {
 	turnState.remaining -= 1

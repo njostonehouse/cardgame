@@ -14,37 +14,22 @@ function turnTimerController($scope) {
 
 function playersController($scope) {
 	socket.on('players', function(data) {
-		$scope.players = _.map( data, function(player) {
-			player.cards = _.map( player.cards, function(card) {
-				card.state = function() {
-					return card.selected ? 'selected' : 'selectable'
-				}
-				return card
-			})
-			return player
-		})
+		console.log( 'players' )
+		$scope.players = data
 		$scope.$apply()
 	});
-	
-	socket.on( 'card-state', function(data) {
-		var player = _.find( $scope.players, function(player) { return player.id == data.player.id } )
-		var card = _.find( player.cards, function(card) { return card.id == data.card.id } )
-		card.selected = data.card.selected
-		$scope.$apply()
-	})
-	
+
 	socket.on( 'player-state', function(data) {
+		console.log( 'player-state' )
 		var player = _.find( $scope.players, function(player) { return player.id == data.id } )
 		player.state = data.state
-		console.log( '' + player.id + ' selected card ' + player.state.selectedCard )
 	})
 	
 	$scope.players = []
 
 	$scope.select = function(player, card) {
-		var message = { player: player, playerId: player.id, cardId: card.id, card: card }
+		var message = { playerId: player.id, cardId: card.id }
 		socket.emit('select-card', message )
-		
 	}
 	
 	$scope.cardState = function(player, card) {
