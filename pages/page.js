@@ -13,6 +13,13 @@ function turnTimerController($scope) {
 }
 
 function playersController($scope) {
+	var cards = []
+
+	socket.on('cards', function(data) {
+		console.log( 'cards' )
+		cards = data
+	})
+
 	socket.on('players', function(data) {
 		console.log( 'players' )
 		$scope.players = data
@@ -27,13 +34,17 @@ function playersController($scope) {
 	
 	$scope.players = []
 
-	$scope.select = function(player, card) {
-		player.state.selectedCard = card.id
-		var message = { playerId: player.id, cardId: card.id }
+	$scope.select = function(player, cardId) {
+		player.state.selectedCard = cardId
+		var message = { playerId: player.id, cardId: cardId }
 		socket.emit('select-card', message )
 	}
 	
-	$scope.cardState = function(player, card) {
-		return card.id == player.state.selectedCard ? 'selected' : 'selectable'
+	$scope.cardState = function(player, cardId) {
+		return cardId == player.state.selectedCard ? 'selected' : 'selectable'
+	}
+	
+	$scope.cardById = function(cardId) {
+		return _.findWhere( cards, { id: cardId } )
 	}
 }

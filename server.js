@@ -17,11 +17,12 @@ var cards = [
 ]
 
 var players = [
-				{ id: 0, name: "Carl", row: 0, cards: [ cards[0], cards[1] ], state: { selectedCard: null } },
-				{ id: 1, name: "Noel", row: 1, cards: [ cards[1], cards[2] ], state: { selectedCard: null } },
-				{ id: 2, name: "Sean", row: 0, cards: [ cards[2], cards[3] ], state: { selectedCard: null } },
-				{ id: 3, name: "Mike", row: 0, cards: [ cards[3], cards[4] ], state: { selectedCard: null } },
+				{ id: 0, name: "Carl", row: 0, cardIds: [ 0, 1 ], state: { selectedCard: null } },
+				{ id: 1, name: "Noel", row: 1, cardIds: [ 1, 2 ], state: { selectedCard: null } },
+				{ id: 2, name: "Sean", row: 0, cardIds: [ 2, 3 ], state: { selectedCard: null } },
+				{ id: 3, name: "Mike", row: 0, cardIds: [ 3, 4 ], state: { selectedCard: null } },
 			]
+		
 var playerById = function( id ) {
 	return _.find( players, function(player) { return player.id == id } )
 }
@@ -64,6 +65,7 @@ var onConnect = function(socket) {
 	socket.on( 'disconnect', _.bind( onDisconnect, socket ) )
 
 	socket.emit( 'players', players )
+	socket.emit( 'cards', cards )
 	socket.emit( 'turn-pulse', turnState )
 	socket.on( 'select-card', onSelectCard )
 }
