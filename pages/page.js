@@ -28,6 +28,7 @@ function playersController($scope) {
 	$scope.players = []
 
 	$scope.select = function(player, card) {
+		player.state.selectedCard = card.id
 		var message = { playerId: player.id, cardId: card.id }
 		socket.emit('select-card', message )
 	}
