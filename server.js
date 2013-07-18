@@ -8,13 +8,7 @@ var app = express();
 var http = httpModule.createServer(app)
 var io = ioModule.listen(http, { log: false })
 
-var cards = [
-	{ id: 0, name: "Attack" },
-	{ id: 1, name: "Move up" },
-	{ id: 2, name: "Move back" },
-	{ id: 3, name: "Heal" },
-	{ id: 4, name: "Defend" }
-]
+var cards = require('./cards')
 
 var players = [
 				{ id: 0, name: "Carl", row: 0, cardIds: [ 0, 1 ], state: { selectedCard: null } },
