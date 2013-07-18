@@ -10,15 +10,15 @@ var io = ioModule.listen(http, { log: false })
 
 var cards = require('./cards')
 
-var players = [
+var players = { list: [
 				{ id: 0, name: "Carl", row: 0, cardIds: [ 0, 1 ], state: { selectedCard: null } },
 				{ id: 1, name: "Noel", row: 1, cardIds: [ 1, 2 ], state: { selectedCard: null } },
 				{ id: 2, name: "Sean", row: 0, cardIds: [ 2, 3 ], state: { selectedCard: null } },
 				{ id: 3, name: "Mike", row: 0, cardIds: [ 3, 4 ], state: { selectedCard: null } },
-			]
+			] }
 		
 var playerById = function( id ) {
-	return _.find( players, function(player) { return player.id == id } )
+	return _.find( players.list, function(player) { return player.id == id } )
 }
 
 var sockets = []
@@ -58,7 +58,7 @@ var onConnect = function(socket) {
 	sockets.push( socket )
 	socket.on( 'disconnect', _.bind( onDisconnect, socket ) )
 
-	socket.emit( 'players', players )
+	socket.emit( 'players', players.list )
 	socket.emit( 'cards', cards )
 	socket.emit( 'turn-pulse', turnState )
 	socket.on( 'select-card', onSelectCard )
@@ -77,8 +77,8 @@ var oneSecond = function() {
 	turnState.remaining -= 1
 	if ( turnState.remaining <= 0 ) {
 		turnState.remaining = 15
-		_.each( players, unselectCards )
-		emit( 'players', players )
+		_.each( players.list, unselectCards )
+		emit( 'players', players.list )
 	}
 	emit( 'turn-pulse', turnState )
 }
