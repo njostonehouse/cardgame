@@ -22,7 +22,9 @@ function playersController($scope) {
 
 	socket.on('players', function(data) {
 		console.log( 'players' )
-		$scope.players = data
+		$scope.players = _.sortBy( data, function(player) {
+			return player.state.position
+		})
 		$scope.$apply()
 	});
 
