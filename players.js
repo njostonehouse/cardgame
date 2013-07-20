@@ -30,14 +30,8 @@ var Players = function() {
 	}
 	
 	this.swapPlayersByPosition = function( position1, position2 ) {
-		var player1 = _.find( this.list, function(player) {
-			return player.state.position == position1
-		})
-		assert( player1 )
-		var player2 = _.find( this.list, function(player) {
-			return player.state.position == position2
-		})
-		assert( player2 )
+		var player1 = this.findPlayerByPosition( position1 )
+		var player2 = this.findPlayerByPosition( position2 )
 		
 		player1.state.position = position2
 		player2.state.position = position1
