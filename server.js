@@ -24,7 +24,7 @@ var sockets = require('./sockets')( io, onConnect )
 
 var onSelectCard = function(data) {
 	var player = players.findById( data.playerId )
-	player.state.selectedCard = data.cardId
+	player.selectedCard = data.cardId
 	sockets.broadcast( 'player-state', player )
 }
 
@@ -34,7 +34,7 @@ var oneSecond = function(turnTimer) {
 
 var endTurn = function() {
 	_.each( players.list, function(player) {
-		var card = cards.findById(player.state.selectedCard)
+		var card = cards.findById(player.selectedCard)
 		if (card) {
 			card.apply(players, player)
 		}

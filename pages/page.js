@@ -23,7 +23,7 @@ function playersController($scope) {
 	socket.on('players', function(data) {
 		console.log( 'players' )
 		$scope.players = _.sortBy( data, function(player) {
-			return player.state.position
+			return player.position
 		})
 		$scope.$apply()
 	});
@@ -31,7 +31,9 @@ function playersController($scope) {
 	socket.on( 'player-state', function(data) {
 		console.log( 'player-state' )
 		var player = _.find( $scope.players, function(player) { return player.id == data.id } )
-		player.state = data.state
+		for( var item in data ) {
+			player[item] = data[item]
+		}
 		$scope.$apply()
 	})
 	
@@ -43,7 +45,7 @@ function playersController($scope) {
 	}
 	
 	$scope.cardState = function(player, cardId) {
-		return cardId == player.state.selectedCard ? 'selected' : 'selectable'
+		return cardId == player.selectedCard ? 'selected' : 'selectable'
 	}
 	
 	$scope.cardById = function(cardId) {

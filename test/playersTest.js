@@ -8,9 +8,9 @@ var TOP_PLAYER_POSITION = 2
 var TOP_PLAYER, MIDDLE_PLAYER, BOTTOM_PLAYER
 
 var resetPlayers = function() {
-	TOP_PLAYER = { id: 0, name: "TOP", cardIds: [ 0, 1 ], state: { selectedCard: null, position: TOP_PLAYER_POSITION } }
-	MIDDLE_PLAYER = { id: 0, name: "MIDDLE", cardIds: [ 0, 1 ], state: { selectedCard: null, position: MIDDLE_PLAYER_POSITION } }
-	BOTTOM_PLAYER = { id: 0, name: "BOTTOM", cardIds: [ 0, 1 ], state: { selectedCard: null, position: BOTTOM_PLAYER_POSITION } }
+	TOP_PLAYER = { id: 0, name: "TOP", cardIds: [ 0, 1 ], selectedCard: null, position: TOP_PLAYER_POSITION }
+	MIDDLE_PLAYER = { id: 0, name: "MIDDLE", cardIds: [ 0, 1 ], selectedCard: null, position: MIDDLE_PLAYER_POSITION }
+	BOTTOM_PLAYER = { id: 0, name: "BOTTOM", cardIds: [ 0, 1 ], selectedCard: null, position: BOTTOM_PLAYER_POSITION }
 	players.list = [ TOP_PLAYER, MIDDLE_PLAYER, BOTTOM_PLAYER ]
 }
 	
@@ -19,19 +19,19 @@ describe( 'players', function() {
 		it( 'should do nothing to the player at the bottom', function() {
 			resetPlayers()
 			players.movePlayerDown( BOTTOM_PLAYER )
-			BOTTOM_PLAYER.state.position.should.equal( BOTTOM_PLAYER_POSITION )
+			BOTTOM_PLAYER.position.should.equal( BOTTOM_PLAYER_POSITION )
 		})
 		
 		it( "should change top player's position when moving top player", function() {
 			resetPlayers()
 			players.movePlayerDown( TOP_PLAYER )
-			TOP_PLAYER.state.position.should.equal( MIDDLE_PLAYER_POSITION )
+			TOP_PLAYER.position.should.equal( MIDDLE_PLAYER_POSITION )
 		})
 		
 		it( "should change middle player's position when moving top player", function() {
 			resetPlayers()
 			players.movePlayerDown( TOP_PLAYER )
-			MIDDLE_PLAYER.state.position.should.equal( TOP_PLAYER_POSITION )
+			MIDDLE_PLAYER.position.should.equal( TOP_PLAYER_POSITION )
 		})
 	})
 	
@@ -39,19 +39,19 @@ describe( 'players', function() {
 		it( 'should do nothing to the player at the top', function() {
 			resetPlayers()
 			players.movePlayerUp( TOP_PLAYER )
-			TOP_PLAYER.state.position.should.equal( TOP_PLAYER_POSITION )
+			TOP_PLAYER.position.should.equal( TOP_PLAYER_POSITION )
 		})
 		
 		it( "should change bottom player's position when moving bottom player", function() {
 			resetPlayers()
 			players.movePlayerUp( BOTTOM_PLAYER )
-			BOTTOM_PLAYER.state.position.should.equal( MIDDLE_PLAYER_POSITION )
+			BOTTOM_PLAYER.position.should.equal( MIDDLE_PLAYER_POSITION )
 		})
 		
 		it( "should change middle player's position when moving bottom player", function() {
 			resetPlayers()
 			players.movePlayerUp( BOTTOM_PLAYER )
-			MIDDLE_PLAYER.state.position.should.equal( BOTTOM_PLAYER_POSITION )
+			MIDDLE_PLAYER.position.should.equal( BOTTOM_PLAYER_POSITION )
 		})
 	})
 	
@@ -59,14 +59,14 @@ describe( 'players', function() {
 		it( 'should do nothing to a player not swapped', function() {
 			resetPlayers()
 			players.swapPlayersByPosition( TOP_PLAYER_POSITION, BOTTOM_PLAYER_POSITION )
-			MIDDLE_PLAYER.state.position.should.equal( MIDDLE_PLAYER_POSITION )
+			MIDDLE_PLAYER.position.should.equal( MIDDLE_PLAYER_POSITION )
 		})
 		
 		it( 'should swap player positions', function() {
 			resetPlayers()
 			players.swapPlayersByPosition( TOP_PLAYER_POSITION, BOTTOM_PLAYER_POSITION )
-			TOP_PLAYER.state.position.should.equal( BOTTOM_PLAYER_POSITION )
-			BOTTOM_PLAYER.state.position.should.equal( TOP_PLAYER_POSITION )
+			TOP_PLAYER.position.should.equal( BOTTOM_PLAYER_POSITION )
+			BOTTOM_PLAYER.position.should.equal( TOP_PLAYER_POSITION )
 		})
 		
 		it( 'should throw when given a non-existant position', function() {
@@ -81,7 +81,7 @@ describe( 'players', function() {
 			should.throws( function() {
 				players.swapPlayersByPosition( TOP_PLAYER_POSITION, TOP_PLAYER_POSITION + 100 )
 			})
-			TOP_PLAYER.state.position.should.equal( TOP_PLAYER_POSITION )
+			TOP_PLAYER.position.should.equal( TOP_PLAYER_POSITION )
 		})
 	})
 	
