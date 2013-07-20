@@ -18,13 +18,15 @@ var Players = function() {
 
 	this.movePlayerUp = function(player) {
 		if ( player.state.position < this.list.length - 1 ) {
-			player.state.position += 1
-			var newPosition = player.state.position
-			
+			var oldPosition = player.state.position
+			var newPosition = oldPosition + 1
+
 			var swapPlayer = _.find( this.list, function(player) {
 				return player.state.position == newPosition
 			})
-			swapPlayer.state.position -= 1
+			
+			player.state.position = newPosition
+			swapPlayer.state.position = oldPosition
 		}
 	}
 	
