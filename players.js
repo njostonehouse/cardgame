@@ -27,6 +27,20 @@ var Players = function() {
 			swapPlayer.state.position -= 1
 		}
 	}
+	
+	this.movePlayerDown = function(player) {
+		if ( player.state.position > 0 ) {
+			var oldPosition = player.state.position
+			var newPosition = oldPosition - 1
+
+			var swapPlayer = _.find( this.list, function(player) {
+				return player.state.position == newPosition
+			})
+			
+			player.state.position = newPosition
+			swapPlayer.state.position = oldPosition
+		}
+	}
 }
 
 module.exports = new Players()
