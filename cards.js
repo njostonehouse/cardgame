@@ -4,15 +4,7 @@ var noop = function( players, player ) {
 }
 
 var moveUp = function( players, player ) {
-	if ( player.state.position < players.list.length - 1 ) {
-		player.state.position += 1
-		var newPosition = player.state.position
-		
-		var swapPlayer = _.find( players.list, function(player) {
-			return player.state.position == newPosition
-		})
-		swapPlayer.state.position -= 1
-	}
+	players.movePlayerUp( player )
 }
 
 var list = exports.list = [

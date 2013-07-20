@@ -14,3 +14,15 @@ var findById = exports.findById = function( id ) {
 var unselectCards = exports.unselectCards = function() {
 	_.each( list, function(player) { player.state.selectedCard = null } )
 }
+
+var movePlayerUp = exports.movePlayerUp = function(player) {
+	if ( player.state.position < list.length - 1 ) {
+		player.state.position += 1
+		var newPosition = player.state.position
+		
+		var swapPlayer = _.find( list, function(player) {
+			return player.state.position == newPosition
+		})
+		swapPlayer.state.position -= 1
+	}
+}
