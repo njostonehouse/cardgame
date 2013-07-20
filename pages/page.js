@@ -24,7 +24,7 @@ function playersController($scope) {
 		console.log( 'players' )
 		$scope.players = data
 		$scope.$apply()
-	});
+	})
 
 	socket.on( 'player-state', function(data) {
 		console.log( 'player-state' )
@@ -41,7 +41,7 @@ function playersController($scope) {
 	}
 	
 	$scope.cardState = function(player, cardId) {
-		return cardId == player.state.selectedCard ? 'selected' : 'selectable'
+		return cardId == player.state.selectedCardId ? 'selected' : 'selectable'
 	}
 	
 	$scope.cardById = function(cardId) {
