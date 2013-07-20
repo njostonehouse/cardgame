@@ -24,7 +24,7 @@ var Players = function() {
 	}
 	
 	this.movePlayerDown = function(player) {
-		if ( player.state.position > 0 ) {
+		if ( this.canMoveDown(player) ) {
 			this.swapPlayersByPosition( player.state.position, player.state.position - 1 )
 		}
 	}
