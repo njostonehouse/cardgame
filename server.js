@@ -15,7 +15,7 @@ var players = require('./players')
 var onConnect = function(socket) {
 	socket.on( 'select-card', onSelectCard )
 
-	socket.emit( 'cards', cards )
+	socket.emit( 'cards', cards.list )
 	socket.emit( 'players', players.list )
 	socket.emit( 'turn-pulse', turnTimer )
 }
@@ -33,6 +33,12 @@ var oneSecond = function(turnTimer) {
 }
 
 var endTurn = function() {
+	_.each( players.list, function(player) {
+		var card = cards.findById(player.state.selectedCard)
+		if (card) {
+			card.apply(players, player)
+		}
+	})
 	players.unselectCards()
 	sockets.broadcast( 'players', players.list )
 }
