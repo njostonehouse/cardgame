@@ -18,7 +18,7 @@ var Players = function() {
 	}
 
 	this.movePlayerUp = function(player) {
-		if ( player.state.position < this.list.length - 1 ) {
+		if ( this.canMoveUp(player) ) {
 			this.swapPlayersByPosition( player.state.position, player.state.position + 1 )
 		}
 	}
