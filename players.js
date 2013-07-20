@@ -1,4 +1,5 @@
 var _ = require('underscore')
+var assert = require('assert')
 
 var Players = function() {
 	this.list = [
@@ -42,6 +43,20 @@ var Players = function() {
 			player.state.position = newPosition
 			swapPlayer.state.position = oldPosition
 		}
+	}
+	
+	this.swapPlayersByPosition = function( position1, position2 ) {
+		var player1 = _.find( this.list, function(player) {
+			return player.state.position == position1
+		})
+		assert( player1 )
+		var player2 = _.find( this.list, function(player) {
+			return player.state.position == position2
+		})
+		assert( player2 )
+		
+		player1.state.position = position2
+		player2.state.position = position1
 	}
 }
 

@@ -43,13 +43,45 @@ describe( 'players', function() {
 		})
 		
 		it( "should change bottom player's position when moving bottom player", function() {
+			resetPlayers()
 			players.movePlayerUp( BOTTOM_PLAYER )
 			BOTTOM_PLAYER.state.position.should.equal( MIDDLE_PLAYER_POSITION )
 		})
 		
 		it( "should change middle player's position when moving bottom player", function() {
+			resetPlayers()
 			players.movePlayerUp( BOTTOM_PLAYER )
 			MIDDLE_PLAYER.state.position.should.equal( BOTTOM_PLAYER_POSITION )
+		})
+	})
+	
+	describe( 'swapPlayersByPosition', function() {
+		it( 'should do nothing to a player not swapped', function() {
+			resetPlayers()
+			players.swapPlayersByPosition( TOP_PLAYER_POSITION, BOTTOM_PLAYER_POSITION )
+			MIDDLE_PLAYER.state.position.should.equal( MIDDLE_PLAYER_POSITION )
+		})
+		
+		it( 'should swap player positions', function() {
+			resetPlayers()
+			players.swapPlayersByPosition( TOP_PLAYER_POSITION, BOTTOM_PLAYER_POSITION )
+			TOP_PLAYER.state.position.should.equal( BOTTOM_PLAYER_POSITION )
+			BOTTOM_PLAYER.state.position.should.equal( TOP_PLAYER_POSITION )
+		})
+		
+		it( 'should throw when given a non-existant position', function() {
+			resetPlayers()
+			should.throws( function() {
+				players.swapPlayersByPosition( TOP_PLAYER_POSITION + 100, BOTTOM_PLAYER_POSITION )
+			})
+		})
+		
+		it( 'should not modify player at first position when given non-existant second position', function() {
+		resetPlayers()
+			should.throws( function() {
+				players.swapPlayersByPosition( TOP_PLAYER_POSITION, TOP_PLAYER_POSITION + 100 )
+			})
+			TOP_PLAYER.state.position.should.equal( TOP_PLAYER_POSITION )
 		})
 	})
 })
