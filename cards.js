@@ -1,6 +1,7 @@
 var _ = require('underscore')
 
 var noop = function( players, player ) {
+	return false
 }
 
 var moveUp = function( players, player ) {
@@ -12,11 +13,11 @@ var moveDown = function( players, player ) {
 }
 
 var list = exports.list = [
-	{ id: 0, name: "Attack", apply: noop },
-	{ id: 1, name: "Move up", apply: moveUp },
-	{ id: 2, name: "Move back", apply: moveDown },
-	{ id: 3, name: "Heal", apply: noop },
-	{ id: 4, name: "Defend", apply: noop }
+	{ id: 0, name: "Attack", apply: noop, canApply: noop },
+	{ id: 1, name: "Move up", apply: moveUp, canApply: noop },
+	{ id: 2, name: "Move back", apply: moveDown, canApply: noop },
+	{ id: 3, name: "Heal", apply: noop, canApply: noop },
+	{ id: 4, name: "Defend", apply: noop, canApply: noop }
 ]
 
 exports.findById = function(id) {
