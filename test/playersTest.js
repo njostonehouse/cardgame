@@ -98,4 +98,16 @@ describe( 'players', function() {
 			players.findPlayerByPosition( TOP_PLAYER_POSITION ).should.equal( TOP_PLAYER )
 		})
 	})
+	
+	describe( 'canMoveUp', function() {
+		before( resetPlayers )
+		
+		it( 'should return false for top player', function() {
+			players.canMoveUp(TOP_PLAYER).should.not.be.ok
+		})
+		
+		it( 'should return true for middle player', function() {
+			players.canMoveUp(MIDDLE_PLAYER).should.be.ok
+		})
+	})
 })

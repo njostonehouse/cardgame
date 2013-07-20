@@ -44,6 +44,10 @@ var Players = function() {
 		assert( player )
 		return player
 	}
+	
+	this.canMoveUp = function( player ) {
+		return player.state.position < this.list.length - 1
+	}
 }
 
 module.exports = new Players()
