@@ -1,4 +1,5 @@
-var players = require( '../players' )
+var players = require('../players')
+var Player = require('../player')
 var should = require('should')
 
 var BOTTOM_PLAYER_POSITION = 0
@@ -8,9 +9,9 @@ var TOP_PLAYER_POSITION = 2
 var TOP_PLAYER, MIDDLE_PLAYER, BOTTOM_PLAYER
 
 var resetPlayers = function() {
-	TOP_PLAYER = { id: 0, name: "TOP", cardIds: [ 0, 1 ], selectedCard: null, position: TOP_PLAYER_POSITION }
-	MIDDLE_PLAYER = { id: 0, name: "MIDDLE", cardIds: [ 0, 1 ], selectedCard: null, position: MIDDLE_PLAYER_POSITION }
-	BOTTOM_PLAYER = { id: 0, name: "BOTTOM", cardIds: [ 0, 1 ], selectedCard: null, position: BOTTOM_PLAYER_POSITION }
+	TOP_PLAYER = new Player( 'TOP', TOP_PLAYER_POSITION )
+	MIDDLE_PLAYER = new Player( 'MIDDLE', MIDDLE_PLAYER_POSITION )
+	BOTTOM_PLAYER = new Player( 'BOTTOM', BOTTOM_PLAYER_POSITION )
 	players.list = [ TOP_PLAYER, MIDDLE_PLAYER, BOTTOM_PLAYER ]
 }
 	
