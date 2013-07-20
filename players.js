@@ -48,6 +48,10 @@ var Players = function() {
 	this.canMoveUp = function( player ) {
 		return player.state.position < this.list.length - 1
 	}
+	
+	this.canMoveDown = function( player ) {
+		return player.state.position > 0
+	}
 }
 
 module.exports = new Players()

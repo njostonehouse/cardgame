@@ -110,4 +110,16 @@ describe( 'players', function() {
 			players.canMoveUp(MIDDLE_PLAYER).should.be.ok
 		})
 	})
+	
+	describe( 'canMoveDown', function() {
+		before( resetPlayers )
+		
+		it( 'should return false for bottom player', function() {
+			players.canMoveDown(BOTTOM_PLAYER).should.not.be.ok
+		})
+		
+		it( 'should return true for middle player', function() {
+			players.canMoveDown(MIDDLE_PLAYER).should.be.ok
+		})
+	})
 })
