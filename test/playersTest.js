@@ -77,11 +77,25 @@ describe( 'players', function() {
 		})
 		
 		it( 'should not modify player at first position when given non-existant second position', function() {
-		resetPlayers()
+			resetPlayers()
 			should.throws( function() {
 				players.swapPlayersByPosition( TOP_PLAYER_POSITION, TOP_PLAYER_POSITION + 100 )
 			})
 			TOP_PLAYER.state.position.should.equal( TOP_PLAYER_POSITION )
+		})
+	})
+	
+	describe( 'findPlayerByPosition', function() {
+		before( resetPlayers )
+	
+		it( 'should throw for non-existant position', function() {
+			should.throws( function() {
+				players.findPlayerByPosition( TOP_PLAYER_POSITION + 1 )
+			})
+		})
+		
+		it( "should find top player when given top player's position", function() {
+			players.findPlayerByPosition( TOP_PLAYER_POSITION ).should.equal( TOP_PLAYER )
 		})
 	})
 })

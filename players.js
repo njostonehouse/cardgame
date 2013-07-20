@@ -42,6 +42,14 @@ var Players = function() {
 		player1.state.position = position2
 		player2.state.position = position1
 	}
+	
+	this.findPlayerByPosition = function( position ) {
+		var player = _.find( this.list, function(player) {
+			return player.state.position == position
+		})
+		assert( player )
+		return player
+	}
 }
 
 module.exports = new Players()
