@@ -25,6 +25,12 @@ function playersController($scope) {
 		$scope.players = data
 		$scope.$apply()
 	})
+	
+	socket.on('nonplayers', function(data) {
+		console.log( 'nonplayers' )
+		$scope.nonplayers = data
+		$scope.$apply()
+	})	
 
 	socket.on( 'player-state', function(data) {
 		console.log( 'player-state' )
@@ -32,8 +38,17 @@ function playersController($scope) {
 		player.state = data.state
 		$scope.$apply()
 	})
+
+	socket.on( 'nonplayer-state', function(data) {
+		console.log( 'nonplayer-state' )
+		var nonplayer = _.find( $scope.nonplayers, function(nonplayer) { return nonplayer.id == data.id } )
+		nonplayer.state = data.state
+		console.log( nonplayer.state.selectedCardId )
+		$scope.$apply()
+	})
 	
 	$scope.players = []
+	$scope.nonplayers = []
 
 	$scope.select = function(player, cardId) {
 		var message = { playerId: player.id, cardId: cardId }
