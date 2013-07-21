@@ -123,4 +123,12 @@ describe( 'players', function() {
 			players.canMoveDown(MIDDLE_PLAYER).should.be.ok
 		})
 	})
+	
+	describe( 'getPlayerPosition', function() {
+		before( resetPlayers )
+		
+		it( 'should return position for bottom player', function() {
+			players.getPlayerPosition( BOTTOM_PLAYER ).should.equal( BOTTOM_PLAYER_POSITION )
+		})
+	})
 })

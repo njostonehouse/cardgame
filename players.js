@@ -53,6 +53,10 @@ var Players = function() {
 	this.canMoveDown = function( player ) {
 		return player.position > 0
 	}
+	
+	this.getPlayerPosition = function( player ) {
+		return player.position
+	}
 }
 
 module.exports = new Players()
