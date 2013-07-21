@@ -6,7 +6,7 @@ var getNextId = function() {
 var Player = function( name, position ) {
 	this.id = getNextId()
 	this.name = name
-	this.cardsIds = [0, 1, 2, 3, 4 ]
+	this.cardIds = [0, 1, 2, 3, 4 ]
 	this.position = position
 }
 
