@@ -27,7 +27,7 @@ var Nonplayers = function () {
 				}
 				p = p + cardWeight
 			})
-			if(p != 1) {
+			if(p == 0) {
 				nonplayer.selectedCard = null
 			}
 		})
