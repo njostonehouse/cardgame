@@ -1,30 +1,37 @@
 var _ = require('underscore')
 
-var nonplayers = {
-	list: [
-		{ id: 0, name: "Rocky", row: 0, cardIds: [ 5, 6, 7 ], state: { selectedCardId: null }, cardWeights: [.9, .1, 0] },
-	],
-	findById: function( nonplayerId ) {
-		return _.findWhere( nonplayers.list, {id: nonplayerId } )
-	},
-	unselectCards: function() {
-		_.each( nonplayers.list, function(nonplayer) { nonplayer.state.selectedCardId = null } )
-	},
-	play: function() {
-		_.each( nonplayers.list, function(nonplayer) {
+var Player = require('./player')
+
+var rockyWeights = [0,0,0,0,0,1,0,0]
+
+var Nonplayers = function () {
+	this.list = [
+		new Player( 'Rocky', 0 )
+	]
+	
+	this.findById = function( id ) {
+		return _.find( this.list, function(nonplayer) { return nonplayer.id == id } )
+	}
+
+	this.unselectCards = function() {
+		_.each( this.list, function(nonplayer) { nonplayer.selectedCard = null } )
+	}
+	
+	this.selectCards = function() {
+		_.each( this.list, function(nonplayer) {
 			var r = Math.random()
 			var p = 0
-			_.each(nonplayer.cardWeights, function(cardWeight, i) {
+			_.each(rockyWeights, function(cardWeight, i) {
 				if (p <= r) {
-					nonplayer.state.selectedCardId = nonplayer.cardIds[i]
+					nonplayer.selectedCard = nonplayer.cardIds[i]
 				}
 				p = p + cardWeight
 			})
 			if(p != 1) {
-				nonplayer.state.selectedCardId = null
+				nonplayer.selectedCard = null
 			}
 		})
 	}
 }
 
-module.exports = nonplayers
+module.exports = new Nonplayers()

@@ -45,7 +45,9 @@ function playersController($scope) {
 	socket.on( 'nonplayer-state', function(data) {
 		console.log( 'nonplayer-state' )
 		var nonplayer = _.find( $scope.nonplayers, function(nonplayer) { return nonplayer.id == data.id } )
-		nonplayer.state = data.state
+		for( var item in data ) {
+			nonplayer[item] = data[item]
+		}
 		$scope.$apply()
 	})
 	

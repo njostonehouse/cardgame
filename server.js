@@ -42,10 +42,13 @@ var oneSecond = function(turnTimer) {
 
 var endTurn = function() {
 
-	nonplayers.play()
+	nonplayers.selectCards()
 	_.each(nonplayers.list, function(nonplayer) {
 		sockets.broadcast( 'nonplayer-state', nonplayer )
-		judge.playCard(cards.findById(nonplayer.state.selectedCardId), nonplayers.findById(nonplayer.id))
+		var card = cards.findById(nonplayer.selectedCard)
+		if (card) {
+			card.apply(nonplayers, nonplayer)
+		}		
 	})
 	nonplayers.unselectCards()
 
