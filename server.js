@@ -19,7 +19,9 @@ var onConnect = function(socket) {
 	socket.on( 'select-card', onSelectCard )
 
 	socket.emit( 'cards', cards.list )
+
 	socket.emit( 'nonplayers', nonplayers.list )
+
 	socket.emit( 'players', players.list )
 	socket.emit( 'turn-pulse', turnTimer )
 }
@@ -28,7 +30,9 @@ var sockets = require('./sockets')( io, onConnect )
 
 var onSelectCard = function(data) {
 	var player = players.findById( data.playerId )
-	player.state.selectedCardId = data.cardId
+
+	player.selectedCard = data.cardId
+
 	sockets.broadcast( 'player-state', player )
 }
 
@@ -37,14 +41,19 @@ var oneSecond = function(turnTimer) {
 }
 
 var endTurn = function() {
+
 	nonplayers.play()
 	_.each(nonplayers.list, function(nonplayer) {
 		sockets.broadcast( 'nonplayer-state', nonplayer )
 		judge.playCard(cards.findById(nonplayer.state.selectedCardId), nonplayers.findById(nonplayer.id))
 	})
 	nonplayers.unselectCards()
-	_.each(players.list, function(player) {
-		judge.playCard(cards.findById(player.state.selectedCardId), players.findById(player.id))
+
+	_.each( players.list, function(player) {
+		var card = cards.findById(player.selectedCard)
+		if (card) {
+			card.apply(players, player)
+		}
 	})
 	players.unselectCards()
 	sockets.broadcast( 'nonplayers', nonplayers.list )

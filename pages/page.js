@@ -9,7 +9,6 @@ function turnTimerController($scope) {
 	$scope.backgroundClass = function() {
 		return $scope.turnTimeRemaining <= 5 ? 'near' : 'far'
 	}
-	
 }
 
 function playersController($scope) {
@@ -22,7 +21,9 @@ function playersController($scope) {
 
 	socket.on('players', function(data) {
 		console.log( 'players' )
-		$scope.players = data
+		$scope.players = _.sortBy( data, function(player) {
+			return player.position
+		})
 		$scope.$apply()
 	})
 	
@@ -35,7 +36,9 @@ function playersController($scope) {
 	socket.on( 'player-state', function(data) {
 		console.log( 'player-state' )
 		var player = _.find( $scope.players, function(player) { return player.id == data.id } )
-		player.state = data.state
+		for( var item in data ) {
+			player[item] = data[item]
+		}
 		$scope.$apply()
 	})
 
@@ -43,7 +46,6 @@ function playersController($scope) {
 		console.log( 'nonplayer-state' )
 		var nonplayer = _.find( $scope.nonplayers, function(nonplayer) { return nonplayer.id == data.id } )
 		nonplayer.state = data.state
-		console.log( nonplayer.state.selectedCardId )
 		$scope.$apply()
 	})
 	
@@ -56,7 +58,7 @@ function playersController($scope) {
 	}
 	
 	$scope.cardState = function(player, cardId) {
-		return cardId == player.state.selectedCardId ? 'selected' : 'selectable'
+		return cardId == player.selectedCard ? 'selected' : 'selectable'
 	}
 	
 	$scope.cardById = function(cardId) {
