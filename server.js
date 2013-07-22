@@ -13,8 +13,6 @@ var cards = require('./cards')
 var players = require('./players')
 var nonplayers = require('./nonplayers')
 
-var judge = require ('./judge')
-
 var onConnect = function(socket) {
 	socket.on( 'select-card', onSelectCard )
 
