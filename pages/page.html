@@ -6,27 +6,18 @@
 		<script src="page.js"></script>
 		<link rel="stylesheet" href="page.css">
 	</head>
-	<body>	
+	<body>
 		<div ng-controller="turnTimerController">
 			Turn time remaining: <span class="trn-timer-end-{{backgroundClass()}}">{{turnTimeRemaining}}</span>
 		</div>
 		<div ng-controller="playersController">
-			<table>
-				<tr ng-repeat="player in players">
-					<td>
-						{{player.name}}
-					</td>
-					<td>
-						<div ng-include src="urlFor(player)"></div>
-					</td>
-					<td ng-repeat="cardId in player.cardIds">
-						<div class="crd-{{cardState(player, cardId)}}" ng-click="select(player, cardId)">{{cardById(cardId).name}}</div>
-					</td>
-					<td>
-						{{player.text}}
-					</td>
-				</tr>
-			</table>
+			<div ng-repeat="player in players">
+				<div class="player-each">
+					<hr class="player-each" />
+					<ng-include src="urlFor(player)"></ng-include>
+				</div>
+				
+			</div>
 		</div>
 	</body>
 </html>

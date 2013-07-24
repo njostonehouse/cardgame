@@ -8,6 +8,7 @@
 	border-width:5px;
 	padding:5px;
 	background-color:yellow;
+	float: left;
 }
 
 .crd-selected {
@@ -15,6 +16,15 @@
 	border-width:5px;
 	padding:5px;
 	background-color:red;
+	float: left;
+}
+
+.crd-nonplayer {
+	border-style:double;
+	border-width:5px;
+	padding:5px;
+	background-color:gray;
+	float: left;
 }
 
 .trn-timer-end-near {
@@ -23,4 +33,20 @@
 }
 
 .trn-timer-end-far {
+}
+
+.player-text {
+	float: left;
+	clear: right;
+}
+
+.player-each{
+	clear: left;
+}
+
+.player-name {
+	float: left;
+	width: 100px;
+	vertical-align: middle;
+	text-align: center;
 }
