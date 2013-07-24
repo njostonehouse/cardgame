@@ -66,4 +66,8 @@ function playersController($scope) {
 	$scope.cardById = function(cardId) {
 		return _.findWhere( cards, { id: cardId } )
 	}
+	
+	$scope.urlFor = function(player) {
+		return player.entityType + ".html"
+	}
 }

@@ -1,13 +1,14 @@
 var _ = require('underscore')
 var assert = require('assert')
-var Player = require('./player')
+var player = require('./player')
 
 var Players = function() {
 	this.list = [
-		new Player( 'Carl', 3 ),
-		new Player( 'Noel', 2 ),
-		new Player( 'Sean', 1 ),
-		new Player( 'Mike', 0 )
+		new player.NonPlayer( 'Rocky', 4 ),
+		new player.Player( 'Carl', 3 ),
+		new player.Player( 'Noel', 2 ),
+		new player.Player( 'Sean', 1 ),
+		new player.Player( 'Mike', 0 )
 	]
 	
 	this.findById = function( id ) {
