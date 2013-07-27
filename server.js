@@ -14,6 +14,7 @@ var players = require('./players')
 
 var onConnect = function(socket) {
 	socket.on( 'select-card', onSelectCard )
+	socket.on( 'control-player', onControlPlayer )
 
 	socket.emit( 'cards', cards.list )
 
@@ -29,6 +30,17 @@ var onSelectCard = function(data) {
 	player.selectCard( data.cardId )
 
 	sockets.broadcast( 'player-state', player )
+}
+
+var onControlPlayer = function(data) {
+	_.each( players.list, function(player) {
+		if (player.id == data.playerId) {
+			player.disableBot()
+		} else {
+			player.enableBot()
+		}
+		sockets.broadcast( 'player-state', player )
+	})
 }
 
 var oneSecond = function(turnTimer) {

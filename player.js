@@ -13,7 +13,7 @@ var Player = function( name, position, team, cardWeights ) {
 	this.position = position
 	this.team = team
 	this.cardWeights = cardWeights
-	this.controller = 'bot'
+	this.botEnabled = true
 
 	this.selectCard = function( cardId ) {
 		this.selectedCard = cardId
@@ -23,27 +23,35 @@ var Player = function( name, position, team, cardWeights ) {
 		var randomNumber = Math.random()
 		var totalProbability = 0
 
-		var option = _.find(cardWeights, function(option) {
-			totalProbability += option.weight
-			return totalProbability >= randomNumber
-		})
+		if (!this.botEnabled) {
+			this.selectedCard = 8 // Pass
+		} else {
+			var option = _.find(cardWeights, function(option) {
+				totalProbability += option.weight
+				return totalProbability >= randomNumber
+			})
 
-		this.selectedCard = option ? option.cardId : null
+			this.selectedCard = option ? option.cardId : null
+		}
 	}	
 	
 	this.getSelectedCard = function() {
 		if(!this.selectedCard) {
-			if(this.controller == "bot") {
-				this.autoSelectCard()
-			} else {
-				this.selectedCard = 8
-			}
+			this.autoSelectCard()
 		}
 		return this.selectedCard
 	}
 
 	this.resetCardSelection = function() {
 		this.selectedCard = null
+	}
+	
+	this.enableBot = function() {
+		this.botEnabled = true
+	}
+	
+	this.disableBot = function() {
+		this.botEnabled = false
 	}
 }
 
