@@ -68,6 +68,6 @@ function playersController($scope) {
 	}
 	
 	$scope.urlFor = function(player) {
-		return player.entityType + ".html"
+		return player.team + ".html"
 	}
 }
