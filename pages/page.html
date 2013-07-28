@@ -11,8 +11,8 @@
 			Turn time remaining: <span class="trn-timer-end-{{backgroundClass()}}">{{turnTimeRemaining}}</span>
 		</div>
 		<div ng-controller="playersController">
-			<div ng-init="controllerConnect()">
-				{{controller.id}}
+			<div>
+				Control Id: {{controller.id}}
 			</div>
 			<div ng-repeat="player in players">
 				<div class="player-each">

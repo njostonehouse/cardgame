@@ -1,7 +1,7 @@
 var cards = require( './cards' )
 var _ = require('underscore')
 
-var CONTROLLER_ID_BOT = 0
+var CONTROLLER_ID_BOT = null
 
 var nextId = 0
 var getNextId = function() {

@@ -38,27 +38,24 @@ function playersController($scope) {
 	
 	socket.on( 'controllers' , function(data) {
 		console.log( 'controllers' )
-		if($scope.controller.id == 0) {
-			$scope.controller.id = data.nextId
+		if($scope.controller.id == null) {
+			$scope.controller.id = data.list[data.list.length-1]
 		}
 		$scope.$apply()
 	})
 	
 	$scope.players = []
-	$scope.controller = {id:0}
+	$scope.controller = {id:null}
 
 	$scope.select = function(player, cardId) {
 		if (player.controllerId == $scope.controller.id) {
-			var message = { playerId: player.id, cardId: cardId }
-			socket.emit('select-card', message )
+			socket.emit('select-card', { playerId: player.id, cardId: cardId } )
 		}
 	}
 	
 	$scope.control = function(player) {
-		// Only bots have controllerId 0
-		if(player.controllerId == 0) {
-			var message = { playerId: player.id, controllerId: $scope.controller.id }
-			socket.emit('control-player', message)
+		if(player.controllerId == null) {
+			socket.emit('control-player', { playerId: player.id, controllerId: $scope.controller.id })
 		}
 	}
 	
@@ -67,7 +64,7 @@ function playersController($scope) {
 	}
 	
 	$scope.controlState = function(player) {
-		return player.controllerId == 0 ? 'selectable' : 'unselectable'
+		return player.controllerId == null ? 'selectable' : 'unselectable'
 	}
 	
 	$scope.cardById = function(cardId) {
@@ -80,5 +77,9 @@ function playersController($scope) {
 	
 	$scope.controllerConnect = function() {
 		socket.emit('controller-connect')
+	}
+	
+	$scope.$routeChangeStart = function (event, next, current) {
+		socket.emit('controller-disconnect', {controllerId: $scope.controller.id} )
 	}
 }

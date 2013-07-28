@@ -12,20 +12,30 @@ var cards = require('./cards')
 
 var players = require('./players')
 
-var controllers = {nextId:0}
+var controllers = {list: []}
 
 var onConnect = function(socket) {
 	socket.on( 'select-card', onSelectCard )
 	socket.on( 'control-player', onControlPlayer )
-	socket.on( 'controller-connect', onControllerConnect )
 
 	socket.emit( 'cards', cards.list )
 
 	socket.emit( 'players', players.list )
 	socket.emit( 'turn-pulse', turnTimer )
+
+	controllers.list.push(socket.id)
+	socket.emit( 'controllers', controllers )	
 }
 
-var sockets = require('./sockets')( io, onConnect )
+var onDisconnect = function(socket) {
+	_.each( players.list, function(player) {
+		player.releaseBotControl(socket.id)
+		sockets.broadcast('player-state', player)		
+	})
+	controllers.list.splice(controllers.list.indexOf(socket.id), 1)
+}
+
+var sockets = require('./sockets')( io, onConnect, onDisconnect )
 
 var onSelectCard = function(data) {
 	var player = players.findById( data.playerId )
@@ -44,11 +54,6 @@ var onControlPlayer = function(data) {
 		}
 		sockets.broadcast( 'player-state', player )
 	})
-}
-
-var onControllerConnect = function() {
-	controllers.nextId++
-	sockets.broadcast( 'controllers', controllers )
 }
 
 var oneSecond = function(turnTimer) {
