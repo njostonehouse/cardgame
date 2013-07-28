@@ -1,6 +1,8 @@
 var cards = require( './cards' )
 var _ = require('underscore')
 
+var CONTROLLER_ID_BOT = 0
+
 var nextId = 0
 var getNextId = function() {
 	return nextId++
@@ -13,7 +15,7 @@ var Player = function( name, position, team, cardWeights ) {
 	this.position = position
 	this.team = team
 	this.cardWeights = cardWeights
-	this.botEnabled = true
+	this.controllerId = CONTROLLER_ID_BOT
 
 	this.selectCard = function( cardId ) {
 		this.selectedCard = cardId
@@ -23,7 +25,7 @@ var Player = function( name, position, team, cardWeights ) {
 		var randomNumber = Math.random()
 		var totalProbability = 0
 
-		if (!this.botEnabled) {
+		if (this.controllerId != CONTROLLER_ID_BOT) {
 			this.selectedCard = 8 // Pass
 		} else {
 			var option = _.find(cardWeights, function(option) {
@@ -45,13 +47,21 @@ var Player = function( name, position, team, cardWeights ) {
 	this.resetCardSelection = function() {
 		this.selectedCard = null
 	}
-	
-	this.enableBot = function() {
-		this.botEnabled = true
+		
+	this.takeBotControl = function(controllerId) {
+		if(this.controllerId == CONTROLLER_ID_BOT) {
+			this.controllerId = controllerId
+		}
+	}
+
+	this.releaseBotControl = function(controllerId) {
+		if(this.controllerId == controllerId) {
+			this.controllerId = CONTROLLER_ID_BOT
+		}
 	}
 	
-	this.disableBot = function() {
-		this.botEnabled = false
+	this.botEnabled = function() {
+		return this.controllerId == CONTROLLER_ID_BOT
 	}
 }
 
