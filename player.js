@@ -16,6 +16,7 @@ var Player = function( name, position, team, cardWeights ) {
 	this.team = team
 	this.cardWeights = cardWeights
 	this.controllerId = CONTROLLER_ID_BOT
+	this.statistics = {health:100}
 
 	this.selectCard = function( cardId ) {
 		this.selectedCard = cardId

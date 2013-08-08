@@ -4,7 +4,10 @@ var player = require('./player')
 
 var Players = function() {
 	this.list = [
-		new player.Player( 'Rocky', 4, "antagonists", [ { cardId: 5, weight: 1 } ] ),
+		new player.Player( 'Rocky', 7, "antagonists", [ { cardId: 5, weight: 1 } ] ),
+		new player.Player( 'Scisario', 6, "antagonists", [ { cardId: 7, weight: 1 } ] ),
+		new player.Player( 'Pape', 5, "antagonists", [ { cardId: 6, weight: 1 } ] ),
+		new player.Player( 'Joker', 4, "antagonists", [ { cardId: 5, weight: .33 }, { cardId: 6, weight: .33 }, { cardId: 7, weight: .33 }, {cardId: 8, weight: .01} ] ),
 		new player.Player( 'Carl', 3, "protagonists", [ { cardId: 5, weight: 0.2}, { cardId: 6, weight: 0.2}, { cardId: 7, weight: 0.2}, { cardId: 1, weight: 0.2}, { cardId: 2, weight: 0.2}] ),
 		new player.Player( 'Noel', 2, "protagonists", [ { cardId: 5, weight: 0.2}, { cardId: 6, weight: 0.2}, { cardId: 7, weight: 0.2}, { cardId: 1, weight: 0.2}, { cardId: 2, weight: 0.2}] ),
 		new player.Player( 'Sean', 1, "protagonists", [ { cardId: 5, weight: 0.2}, { cardId: 6, weight: 0.2}, { cardId: 7, weight: 0.2}, { cardId: 1, weight: 0.2}, { cardId: 2, weight: 0.2}] ),
