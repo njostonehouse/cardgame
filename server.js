@@ -62,10 +62,10 @@ var oneSecond = function(turnTimer) {
 
 var endTurn = function() {
 	_.each( players.list, function(player) {
-		var card = cards.findById(player.getSelectedCard())
-		if (card) {
-			card.apply(players, player)
-		}
+		cards.findById(player.getSelectedCard())
+	})
+	_.each( players.list, function(player) {
+		cards.findById(player.getSelectedCard()).apply(players, player)
 	})
 	players.unselectCards()
 	sockets.broadcast( 'players', players.list )

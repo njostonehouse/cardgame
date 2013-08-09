@@ -14,8 +14,18 @@ var moveDown = function( players, player ) {
 	player.text = "I Played " + this.name + "!"
 }
 
-var attack = function(players, player) {
-	player.text = "I Played " + this.name + "!"
+var blockableAttack = function(blockCardId) {
+	return function(players, player) {
+		var selfCardId = this.id
+		var rpsEffect = function(targetPlayer) {
+			if(targetPlayer.selectedCard != selfCardId && targetPlayer.selectedCard != blockCardId) {
+				targetPlayer.statistics.health = targetPlayer.statistics.health - 10
+			}
+		}
+		players.applyEffectByPosition(rpsEffect, player.position + 1)
+		players.applyEffectByPosition(rpsEffect, player.position - 1)
+		player.text = "I Played " + this.name + "!"
+	}
 }
 
 var list = exports.list = [
@@ -24,10 +34,10 @@ var list = exports.list = [
 	{ id: 2, name: "Move back", apply: moveDown, canApply: noop },
 	{ id: 3, name: "Heal", apply: noop, canApply: noop },
 	{ id: 4, name: "Defend", apply: noop, canApply: noop },
-	{ id: 5, name: "Rock", apply: attack },
-	{ id: 6, name: "Paper", apply: attack },
-	{ id: 7, name: "Scissors", apply: attack },
-	{ id: 8, name: "Pass", apply: attack }
+	{ id: 5, name: "Rock", apply: blockableAttack(6) },
+	{ id: 6, name: "Paper", apply: blockableAttack(7) },
+	{ id: 7, name: "Scissors", apply: blockableAttack(5) },
+	{ id: 8, name: "Pass", apply: noop }
 ]
 
 exports.findById = function(id) {

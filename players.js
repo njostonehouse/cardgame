@@ -61,6 +61,12 @@ var Players = function() {
 	this.getPlayerPosition = function( player ) {
 		return player.position
 	}
+
+	this.applyEffectByPosition = function( effect, position ) {
+		if(position >= 0 && position < this.list.length ) {
+			effect(this.findPlayerByPosition(position))
+		}
+	}
 }
 
 module.exports = new Players()
