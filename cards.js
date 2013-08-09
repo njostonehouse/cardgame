@@ -1,30 +1,30 @@
 var _ = require('underscore')
 
-var noop = function( players, player ) {
+var noop = function( board, character ) {
 	return false
 }
 
-var moveUp = function( players, player ) {
-	players.movePlayerUp( player )
-	player.text = "I Played " + this.name + "!"
+var moveUp = function( board, character ) {
+	board.moveCharacterUp( character )
+	character.text = "I Played " + this.name + "!"
 }
 
-var moveDown = function( players, player ) {
-	players.movePlayerDown( player )
-	player.text = "I Played " + this.name + "!"
+var moveDown = function( board, character ) {
+	board.moveCharacterDown( character )
+	character.text = "I Played " + this.name + "!"
 }
 
 var blockableAttack = function(blockCardId) {
-	return function(players, player) {
+	return function(board, character) {
 		var selfCardId = this.id
 		var rpsEffect = function(targetPlayer) {
 			if(targetPlayer.selectedCard != selfCardId && targetPlayer.selectedCard != blockCardId) {
 				targetPlayer.statistics.health = targetPlayer.statistics.health - 10
 			}
 		}
-		players.applyEffectByPosition(rpsEffect, player.position + 1)
-		players.applyEffectByPosition(rpsEffect, player.position - 1)
-		player.text = "I Played " + this.name + "!"
+		board.applyEffectByPosition(rpsEffect, character.position + 1)
+		board.applyEffectByPosition(rpsEffect, character.position - 1)
+		character.text = "I Played " + this.name + "!"
 	}
 }
 

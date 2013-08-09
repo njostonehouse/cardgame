@@ -43,23 +43,23 @@
 .trn-timer-end-far {
 }
 
-.player-text {
+.character-text {
 	float: left;
 	width: 200px;
 }
 
-.player-each{
+.character-each{
 	clear: left;
 }
 
-.player-stats {
+.character-stats {
 	float: left;
 	width: 100px;
 	vertical-align: middle;
 	text-align: center;
 }
 
-.player-cards {
+.character-cards {
 	float: right;
 }
 
