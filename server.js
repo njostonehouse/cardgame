@@ -61,12 +61,12 @@ var oneSecond = function(turnTimer) {
 }
 
 var endTurn = function() {
-	_.each( players.list, function(player) {
-		cards.findById(player.getSelectedCard())
-	})
-	_.each( players.list, function(player) {
-		cards.findById(player.getSelectedCard()).apply(players, player)
-	})
+	_.each(_.sortBy( players.list, function(player) { return cards.findById(player.getSelectedCard()).priority }), 
+		function(player) {
+			console.log(player.name)
+			cards.findById(player.getSelectedCard()).apply(players, player)
+		}
+	)
 	players.unselectCards()
 	sockets.broadcast( 'players', players.list )
 }
