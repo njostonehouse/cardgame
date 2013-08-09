@@ -63,7 +63,6 @@ var oneSecond = function(turnTimer) {
 var endTurn = function() {
 	_.each(_.sortBy( players.list, function(player) { return cards.findById(player.getSelectedCard()).priority }), 
 		function(player) {
-			console.log(player.name)
 			cards.findById(player.getSelectedCard()).apply(players, player)
 		}
 	)
