@@ -10,7 +10,7 @@ var io = ioModule.listen(http, { log: false })
 
 var cards = require('./cards')
 
-var players = require('./players')
+var players = require('./board')
 
 var controllers = {list: []}
 
