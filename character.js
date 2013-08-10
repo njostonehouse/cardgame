@@ -50,12 +50,14 @@ var Character = function( name, position, team, cardWeights ) {
 	}
 		
 	this.takeBotControl = function(playerId) {
+		this.resetCardSelection()
 		if(this.playerId == PLAYER_ID_BOT) {
 			this.playerId = playerId
 		}
 	}
 
 	this.releaseBotControl = function(playerId) {
+		this.resetCardSelection()
 		if(this.playerId == playerId) {
 			this.playerId = PLAYER_ID_BOT
 		}
