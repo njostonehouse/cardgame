@@ -14,9 +14,9 @@ var move = function(distance) {
 var blockableAttack = function(blockCardId) {
 	return function(board, character) {
 		var selfCardId = this.id
-		var rpsEffect = function(targetPlayer) {
-			if(targetPlayer.selectedCard != selfCardId && targetPlayer.selectedCard != blockCardId) {
-				targetPlayer.statistics.health = targetPlayer.statistics.health - 10
+		var rpsEffect = function(targetCharacter) {
+			if(targetCharacter.selectedCard != selfCardId && targetCharacter.selectedCard != blockCardId) {
+				targetCharacter.statistics.health = targetCharacter.statistics.health - 10
 			}
 		}
 		board.applyEffectByPosition(rpsEffect, character.position + 1)

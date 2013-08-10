@@ -29,11 +29,9 @@ var Board = function() {
 	}
 	
 	this.swapCharactersByPosition = function( position1, position2 ) {
-		var player1 = this.findCharacterByPosition( position1 )
-		var player2 = this.findCharacterByPosition( position2 )
-		
-		player1.position = position2
-		player2.position = position1
+		var evictedCharacter = this.findCharacterByPosition( position2 )
+		this.findCharacterByPosition( position1 ).position = position2
+		evictedCharacter.position = position1
 	}
 	
 	this.findCharacterByPosition = function( position ) {
