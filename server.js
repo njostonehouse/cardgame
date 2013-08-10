@@ -20,7 +20,7 @@ var onConnect = function(socket) {
 
 	socket.emit( 'cards', cards.list )
 
-	socket.emit( 'board-characters', board.characters )
+	socket.emit( 'characters', board.characters )
 	socket.emit( 'turn-pulse', turnTimer )
 
 	players.list.push(socket.id)
@@ -67,7 +67,7 @@ var endTurn = function() {
 		}
 	)
 	board.unselectCards()
-	sockets.broadcast( 'board-characters', board.characters )
+	sockets.broadcast( 'characters', board.characters )
 }
 
 var turnTimer = require('./turnTimer')( oneSecond, endTurn )

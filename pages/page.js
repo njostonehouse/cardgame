@@ -19,8 +19,8 @@ function charactersController($scope) {
 		cards = data
 	})
 
-	socket.on('board-characters', function(data) {
-		console.log( 'board-characters' )
+	socket.on('characters', function(data) {
+		console.log( 'characters' )
 		$scope.characters = _.sortBy( data, function(character) {
 			return character.position
 		})
