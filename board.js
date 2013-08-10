@@ -22,15 +22,9 @@ var Board = function() {
 		_.each( this.characters, function(character) { character.selectedCard = null } )
 	}
 
-	this.moveCharacterUp = function(character) {
-		if ( this.canMoveUp(character) ) {
-			this.swapCharactersByPosition( character.position, character.position + 1 )
-		}
-	}
-	
-	this.moveCharacterDown = function(character) {
-		if ( this.canMoveDown(character) ) {
-			this.swapCharactersByPosition( character.position, character.position - 1 )
+	this.moveCharacter = function(character, distance) {
+		if ( this.canMove(character, distance) ) {
+			this.swapCharactersByPosition( character.position, character.position + distance )
 		}
 	}
 	
@@ -50,12 +44,8 @@ var Board = function() {
 		return character
 	}
 	
-	this.canMoveUp = function( character ) {
-		return character.position < this.characters.length - 1
-	}
-	
-	this.canMoveDown = function( character ) {
-		return character.position > 0
+	this.canMove = function( character, distance ) {
+		return character.position + distance < this.characters.length - 1 && character.position + distance >= 0
 	}
 	
 	this.getCharacterPosition = function( character ) {
