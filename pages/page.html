@@ -15,13 +15,12 @@
 			<div class="player-board">
 				<div ng-repeat="character in characters">
 					<div class="character-each">
-						<hr class="character-each" />
 						<ng-include src="urlFor(character)"></ng-include>
 					</div>
 				</div>
 			</div>
 		</div>
-
+		
 		<div ng-controller="charactersController">
 			<div class="player-hand">
 				<div ng-repeat="character in characters">	
