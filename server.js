@@ -9,10 +9,18 @@ var http = httpModule.createServer(app)
 var io = ioModule.listen(http, { log: false })
 
 var cards = require('./cards')
-
 var board = require('./board')
 
 var players = {list: []}
+
+board.addNewCharacter( 'Rocky', "antagonists", [ { cardId: 5, weight: 1 } ] )
+board.addNewCharacter( 'Scisario', "antagonists", [ { cardId: 7, weight: 1 } ] )
+board.addNewCharacter( 'Pape', "antagonists", [ { cardId: 6, weight: 1 } ] )
+board.addNewCharacter( 'Joker', "antagonists", [ { cardId: 5, weight: .33 }, { cardId: 6, weight: .33 }, { cardId: 7, weight: .33 }, {cardId: 8, weight: .01} ] )
+board.addNewCharacter( 'Carl', "protagonists", [ { cardId: 5, weight: 0.2}, { cardId: 6, weight: 0.2}, { cardId: 7, weight: 0.2}, { cardId: 1, weight: 0.2}, { cardId: 2, weight: 0.2}] )
+board.addNewCharacter( 'Noel', "protagonists", [ { cardId: 5, weight: 0.2}, { cardId: 6, weight: 0.2}, { cardId: 7, weight: 0.2}, { cardId: 1, weight: 0.2}, { cardId: 2, weight: 0.2}] )
+board.addNewCharacter( 'Sean', "protagonists", [ { cardId: 5, weight: 0.2}, { cardId: 6, weight: 0.2}, { cardId: 7, weight: 0.2}, { cardId: 1, weight: 0.2}, { cardId: 2, weight: 0.2}] )
+board.addNewCharacter( 'Mike', "protagonists", [ { cardId: 5, weight: 0.2}, { cardId: 6, weight: 0.2}, { cardId: 7, weight: 0.2}, { cardId: 1, weight: 0.2}, { cardId: 2, weight: 0.2}] )
 
 var onConnect = function(socket) {
 	socket.on( 'select-card', onSelectCard )
@@ -38,7 +46,7 @@ var onDisconnect = function(socket) {
 var sockets = require('./sockets')( io, onConnect, onDisconnect )
 
 var onSelectCard = function(data) {
-	var character = board.findById( data.characterId )
+	var character = board.findCharacterById( data.characterId )
 
 	character.selectCard( data.cardId )
 

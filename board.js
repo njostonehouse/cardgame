@@ -2,19 +2,24 @@ var _ = require('underscore')
 var assert = require('assert')
 var character = require('./character')
 
+var nextPositions = {}
+var getNextPosition = function(teamName) {
+	if(!nextPositions[teamName]) {
+		nextPositions[teamName] = 0
+	}
+	return nextPositions[teamName]++
+}
+
 var Board = function() {
-	this.characters = [
-		new character.Character( 'Rocky', 7, "antagonists", [ { cardId: 5, weight: 1 } ] ),
-		new character.Character( 'Scisario', 6, "antagonists", [ { cardId: 7, weight: 1 } ] ),
-		new character.Character( 'Pape', 5, "antagonists", [ { cardId: 6, weight: 1 } ] ),
-		new character.Character( 'Joker', 4, "antagonists", [ { cardId: 5, weight: .33 }, { cardId: 6, weight: .33 }, { cardId: 7, weight: .33 }, {cardId: 8, weight: .01} ] ),
-		new character.Character( 'Carl', 3, "protagonists", [ { cardId: 5, weight: 0.2}, { cardId: 6, weight: 0.2}, { cardId: 7, weight: 0.2}, { cardId: 1, weight: 0.2}, { cardId: 2, weight: 0.2}] ),
-		new character.Character( 'Noel', 2, "protagonists", [ { cardId: 5, weight: 0.2}, { cardId: 6, weight: 0.2}, { cardId: 7, weight: 0.2}, { cardId: 1, weight: 0.2}, { cardId: 2, weight: 0.2}] ),
-		new character.Character( 'Sean', 1, "protagonists", [ { cardId: 5, weight: 0.2}, { cardId: 6, weight: 0.2}, { cardId: 7, weight: 0.2}, { cardId: 1, weight: 0.2}, { cardId: 2, weight: 0.2}] ),
-		new character.Character( 'Mike', 0, "protagonists", [ { cardId: 5, weight: 0.2}, { cardId: 6, weight: 0.2}, { cardId: 7, weight: 0.2}, { cardId: 1, weight: 0.2}, { cardId: 2, weight: 0.2}] )
-	]
+	this.characters = []
+
+	this.addNewCharacter = function(name, team, cardWeights) {
+		this.characters.push(new character.Character(name, cardWeights))
+		this.characters[_.size(this.characters)-1].team = team
+		this.characters[_.size(this.characters)-1].position = getNextPosition(team)
+	}
 	
-	this.findById = function( id ) {
+	this.findCharacterById = function( id ) {
 		return _.find( this.characters, function(character) { return character.id == id } )
 	}
 
@@ -24,18 +29,18 @@ var Board = function() {
 
 	this.moveCharacter = function(character, distance) {
 		if ( this.canMove(character, distance) ) {
-			this.swapCharactersByPosition( character.position, character.position + distance )
+			this.swapCharactersByPosition( character.team, character.position, character.position + distance )
 		}
 	}
 	
-	this.swapCharactersByPosition = function( position1, position2 ) {
-		var evictedCharacter = this.findCharacterByPosition( position2 )
-		this.findCharacterByPosition( position1 ).position = position2
+	this.swapCharactersByPosition = function( team, position1, position2 ) {
+		var evictedCharacter = this.findCharacterByPosition( team, position2 )
+		this.findCharacterByPosition( team, position1 ).position = position2
 		evictedCharacter.position = position1
 	}
 	
-	this.findCharacterByPosition = function( position ) {
-		var character = _.find( this.characters, function(character) {
+	this.findCharacterByPosition = function( team, position ) {
+		var character = _.find( _.filter(this.characters, function(ch) { return ch.team == team }), function(character) {
 			return character.position == position
 		})
 		assert( character )
@@ -43,17 +48,15 @@ var Board = function() {
 	}
 	
 	this.canMove = function( character, distance ) {
-		return character.position + distance < this.characters.length - 1 && character.position + distance >= 0
-	}
-	
-	this.getCharacterPosition = function( character ) {
-		return character.position
+		return character.position + distance < _.filter(this.characters, function(ch) { return ch.team == character.team}).length && character.position + distance >= 0
 	}
 
 	this.applyEffectByPosition = function( effect, position ) {
-		if(position >= 0 && position < this.characters.length ) {
-			effect(this.findCharacterByPosition(position))
-		}
+		_.each(this.characters, function(character) {
+			if(character.position == position) {
+				effect(character)
+			}
+		})
 	}
 }
 

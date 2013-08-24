@@ -8,12 +8,10 @@ var getNextId = function() {
 	return nextId++
 }
 
-var Character = function( name, position, team, cardWeights ) {
+var Character = function( name, cardWeights ) {
 	this.id = getNextId()
 	this.name = name
 	this.cardIds = [0, 1, 2, 3, 4, 5, 6, 7, 8]
-	this.position = position
-	this.team = team
 	this.cardWeights = cardWeights
 	this.playerId = PLAYER_ID_BOT
 	this.statistics = {health:100}
