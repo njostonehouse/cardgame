@@ -17,14 +17,9 @@ var getNextPosition = function(teamName) {
 
 var Board = function() {
 	this.characters = []
-
-	this.teams = []
 	
 	this.addNewCharacter = function(name, team, cardWeights) {
 		this.characters.push(new character.Character(name, cardWeights))
-		if(!_.contains(this.teams, team)) {
-			this.teams.push(team)
-		}
 		this.characters[_.size(this.characters)-1].id = getNextId()
 		this.characters[_.size(this.characters)-1].team = team
 		this.characters[_.size(this.characters)-1].position = getNextPosition(team)
