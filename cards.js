@@ -19,7 +19,7 @@ var blockableAttack = function(blockCardId) {
 				targetCharacter.statistics.health = targetCharacter.statistics.health - 10
 			}
 		}
-		board.applyEffectByPosition(rpsEffect, character.position)
+		board.applyEffect(rpsEffect, character.team, character.position)
 		character.text = "I attacked with " + this.name + "!"
 	}
 }

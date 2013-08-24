@@ -57,8 +57,8 @@ var Board = function() {
 		return character.position + distance < _.filter(this.characters, function(ch) { return ch.team == character.team}).length && character.position + distance >= 0
 	}
 
-	this.applyEffectByPosition = function( effect, position ) {
-		_.each(this.characters, function(character) {
+	this.applyEffect = function( effect, team, position ) {
+		_.each(_.filter(this.characters, function(ch) { return ch.team == team }), function(character) {
 			if(character.position == position) {
 				effect(character)
 			}
