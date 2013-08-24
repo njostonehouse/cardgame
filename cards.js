@@ -15,7 +15,7 @@ var blockableAttack = function(blockCardId) {
 	return function(board, character) {
 		var selfCardId = this.id
 		var rpsEffect = function(targetCharacter) {
-			if(targetCharacter.selectedCard != selfCardId && targetCharacter.selectedCard != blockCardId) {
+			if(targetCharacter.selectedCardId != selfCardId && targetCharacter.selectedCardId != blockCardId) {
 				targetCharacter.statistics.health = targetCharacter.statistics.health - 10
 			}
 		}

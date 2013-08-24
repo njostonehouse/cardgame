@@ -11,7 +11,7 @@ var Character = function( name, cardWeights ) {
 	this.statistics = {health:100}
 
 	this.selectCard = function( cardId ) {
-		this.selectedCard = cardId
+		this.selectedCardId = cardId
 	}
 
 	this.autoSelectCard = function() {
@@ -19,26 +19,26 @@ var Character = function( name, cardWeights ) {
 		var totalProbability = 0
 
 		if (this.playerId != PLAYER_ID_BOT) {
-			this.selectedCard = 8 // Pass
+			this.selectedCardId = 8 // Pass
 		} else {
 			var option = _.find(cardWeights, function(option) {
 				totalProbability += option.weight
 				return totalProbability >= randomNumber
 			})
 
-			this.selectedCard = option ? option.cardId : null
+			this.selectedCardId = option ? option.cardId : null
 		}
 	}	
 	
 	this.getSelectedCard = function() {
-		if(!this.selectedCard) {
+		if(!this.selectedCardId) {
 			this.autoSelectCard()
 		}
-		return this.selectedCard
+		return this.selectedCardId
 	}
 
 	this.resetCardSelection = function() {
-		this.selectedCard = null
+		this.selectedCardId = null
 	}
 		
 	this.takeBotControl = function(playerId) {

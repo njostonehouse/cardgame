@@ -60,7 +60,7 @@ function charactersController($scope) {
 	}
 	
 	$scope.cardState = function(character, cardId) {
-		return character.playerId != $scope.player.id ? 'unselectable' : cardId == character.selectedCard ? 'selected' : 'selectable'
+		return character.playerId != $scope.player.id ? 'unselectable' : cardId == character.selectedCardId ? 'selected' : 'selectable'
 	}
 	
 	$scope.controlState = function(character) {

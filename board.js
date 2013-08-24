@@ -35,7 +35,7 @@ var Board = function() {
 	}
 
 	this.unselectCards = function() {
-		_.each( this.characters, function(character) { character.selectedCard = null } )
+		_.each( this.characters, function(character) { character.selectedCardId = null } )
 	}
 
 	this.moveCharacter = function(character, distance) {
