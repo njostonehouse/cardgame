@@ -2,6 +2,11 @@ var _ = require('underscore')
 var assert = require('assert')
 var character = require('./character')
 
+var nextId = 0
+var getNextId = function() {
+	return nextId++
+}
+
 var nextPositions = {}
 var getNextPosition = function(teamName) {
 	if(!nextPositions[teamName]) {
@@ -15,6 +20,7 @@ var Board = function() {
 
 	this.addNewCharacter = function(name, team, cardWeights) {
 		this.characters.push(new character.Character(name, cardWeights))
+		this.characters[_.size(this.characters)-1].id = getNextId()
 		this.characters[_.size(this.characters)-1].team = team
 		this.characters[_.size(this.characters)-1].position = getNextPosition(team)
 	}

@@ -3,13 +3,7 @@ var _ = require('underscore')
 
 var PLAYER_ID_BOT = null
 
-var nextId = 0
-var getNextId = function() {
-	return nextId++
-}
-
 var Character = function( name, cardWeights ) {
-	this.id = getNextId()
 	this.name = name
 	this.cardIds = [0, 1, 2, 3, 4, 5, 6, 7, 8]
 	this.cardWeights = cardWeights
