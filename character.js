@@ -5,7 +5,7 @@ var PLAYER_ID_BOT = null
 
 var Character = function( name, cardWeights ) {
 	this.name = name
-	this.cardIds = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+	this.cardIds = [1, 2, 5, 6, 7, 8]
 	this.cardWeights = cardWeights
 	this.playerId = PLAYER_ID_BOT
 	this.statistics = {health:100}

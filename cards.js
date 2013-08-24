@@ -27,11 +27,8 @@ var blockableAttack = function(blockCardId) {
 }
 
 var list = exports.list = [
-	{ id: 0, name: "Attack", priority: 0, apply: noop, canApply: noop },
 	{ id: 1, name: "Move forward", priority: 1, apply: move(1), canApply: noop },
 	{ id: 2, name: "Move back", priority: 1, apply: move(-1), canApply: noop },
-	{ id: 3, name: "Heal", priority: 0, apply: noop, canApply: noop },
-	{ id: 4, name: "Defend", priority: 0, apply: noop, canApply: noop },
 	{ id: 5, name: "Rock", priority: 2, apply: blockableAttack(6) },
 	{ id: 6, name: "Paper", priority: 2, apply: blockableAttack(7) },
 	{ id: 7, name: "Scissors", priority: 2, apply: blockableAttack(5) },
