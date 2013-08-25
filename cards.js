@@ -19,7 +19,7 @@ var blockableAttack = function(blockCardId) {
 				targetCharacter.statistics.health = targetCharacter.statistics.health - 10
 			}
 		}
-		_.each(_.without(_.uniq(_.pluck(board.characters, 'team')), character.team), function(team) {
+		_.each(_.without(board.getTeams(), character.team), function(team) {
 			board.applyEffect(rpsEffect, team, character.position)
 		})
 		character.text = "I attacked with " + this.name + "!"

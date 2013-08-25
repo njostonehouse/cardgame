@@ -17,6 +17,10 @@ var getNextPosition = function(teamName) {
 
 var Board = function() {
 	this.characters = []
+
+	this.getTeams = function() {
+		return _.uniq(_.pluck(this.characters, 'team'))
+	}
 	
 	this.addNewCharacter = function(name, team, cardWeights) {
 		this.characters.push(new character.Character(name, cardWeights))
