@@ -18,6 +18,10 @@ var getNextPosition = function(teamName) {
 var Board = function() {
 	this.characters = []
 
+	this.getTeams = function() {
+		return _.uniq(_.pluck(this.characters, 'team'))
+	}
+	
 	this.addNewCharacter = function(name, team, cardWeights) {
 		this.characters.push(new character.Character(name, cardWeights))
 		this.characters[_.size(this.characters)-1].id = getNextId()
@@ -30,7 +34,7 @@ var Board = function() {
 	}
 
 	this.unselectCards = function() {
-		_.each( this.characters, function(character) { character.selectedCard = null } )
+		_.each( this.characters, function(character) { character.selectedCardId = null } )
 	}
 
 	this.moveCharacter = function(character, distance) {
@@ -57,8 +61,8 @@ var Board = function() {
 		return character.position + distance < _.filter(this.characters, function(ch) { return ch.team == character.team}).length && character.position + distance >= 0
 	}
 
-	this.applyEffectByPosition = function( effect, position ) {
-		_.each(this.characters, function(character) {
+	this.applyEffect = function( effect, team, position ) {
+		_.each(_.filter(this.characters, function(ch) { return ch.team == team }), function(character) {
 			if(character.position == position) {
 				effect(character)
 			}
