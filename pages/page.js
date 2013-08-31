@@ -21,8 +21,9 @@ function charactersController($scope) {
 
 	socket.on('characters', function(data) {
 		console.log( 'characters' )
-		$scope.characters = _.sortBy( data, function(character) {
-			return character.position
+		$scope.characters = []
+		_.each( data, function(team) {
+			$scope.characters = _.union($scope.characters, team.members)
 		})
 		$scope.$apply()
 	})

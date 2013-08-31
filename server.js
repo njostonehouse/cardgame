@@ -9,10 +9,12 @@ var http = httpModule.createServer(app)
 var io = ioModule.listen(http, { log: false })
 
 var cards = require('./cards')
-
+var characters = require('./character')
 var board = require('./board')
 
 var players = {list: []}
+
+board.addCharacters(characters.list)
 
 var onConnect = function(socket) {
 	socket.on( 'select-card', onSelectCard )
@@ -20,7 +22,7 @@ var onConnect = function(socket) {
 
 	socket.emit( 'cards', cards.list )
 
-	socket.emit( 'characters', board.characters )
+	socket.emit( 'characters', board.teams )
 	socket.emit( 'turn-pulse', turnTimer )
 
 	players.list.push(socket.id)
@@ -28,9 +30,11 @@ var onConnect = function(socket) {
 }
 
 var onDisconnect = function(socket) {
-	_.each( board.characters, function(character) {
-		character.releaseBotControl(socket.id)
-		sockets.broadcast('character-state', character)		
+	_.each( board.teams, function(team) {
+		_.each(team.members, function(character) {
+			character.releaseBotControl(socket.id)
+			sockets.broadcast('character-state', character)
+		})
 	})
 	players.list.splice(players.list.indexOf(socket.id), 1)
 }
@@ -38,7 +42,7 @@ var onDisconnect = function(socket) {
 var sockets = require('./sockets')( io, onConnect, onDisconnect )
 
 var onSelectCard = function(data) {
-	var character = board.findById( data.characterId )
+	var character = board.findCharacterById( data.characterId )
 
 	character.selectCard( data.cardId )
 
@@ -46,13 +50,15 @@ var onSelectCard = function(data) {
 }
 
 var onSelectCharacter = function(data) {
-	_.each( board.characters, function(character) {
-		if (character.id == data.characterId) {
-			character.takeBotControl(data.playerId)
-		} else {
-			character.releaseBotControl(data.playerId)
-		}
-		sockets.broadcast( 'character-state', character )
+	_.each( board.teams, function(team) {
+		_.each( team.members, function(character) {
+			if (character.id == data.characterId) {
+				character.takeBotControl(data.playerId)
+			} else {
+				character.releaseBotControl(data.playerId)
+			}
+			sockets.broadcast( 'character-state', character )
+		})
 	})
 }
 
@@ -61,13 +67,15 @@ var oneSecond = function(turnTimer) {
 }
 
 var endTurn = function() {
-	_.each(_.sortBy( board.characters, function(character) { return cards.findById(character.getSelectedCard()).priority }), 
-		function(character) {
-			cards.findById(character.getSelectedCard()).apply(board, character)
-		}
-	)
-	board.unselectCards()
-	sockets.broadcast( 'characters', board.characters )
+	_.each( board.teams, function(team) {
+		_.each(_.sortBy( team.members, function(character) { return cards.findById(character.getSelectedCard()).priority }), 
+			function(character) {
+				cards.findById(character.getSelectedCard()).apply(board, character)
+			}
+		)
+	})
+	board.unselectAllCards()
+	sockets.broadcast( 'characters', board.teams )
 }
 
 var turnTimer = require('./turnTimer')( oneSecond, endTurn )
