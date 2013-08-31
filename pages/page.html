@@ -26,8 +26,8 @@
 				<div ng-repeat="character in characters">	
 					<div ng-show="player.id==character.playerId"> 			
 						<div class="character-stats">{{character.name}}</div>
-						<div class="character-cards" ng-repeat="cardId in character.cardIds">
-							<div class="crd-{{cardState(character, cardId)}}" ng-click="select(character, cardId)">{{cardById(cardId).name}}</div>
+						<div class="character-cards" ng-repeat="card in character.cardWeights">
+							<div class="crd-{{cardState(character, card.cardId)}}" ng-click="select(character, card.cardId)">{{cardById(card.cardId).name}}</div>
 						</div>
 					</div>
 				</div>

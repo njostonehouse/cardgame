@@ -5,7 +5,6 @@ var PLAYER_ID_BOT = null
 
 var Character = function( name, cardWeights ) {
 	this.name = name
-	this.cardIds = [1, 2, 5, 6, 7, 8]
 	this.cardWeights = cardWeights
 	this.playerId = PLAYER_ID_BOT
 	this.statistics = {health:100}
@@ -19,7 +18,7 @@ var Character = function( name, cardWeights ) {
 		var totalProbability = 0
 
 		if (this.playerId != PLAYER_ID_BOT) {
-			this.selectedCardId = 8 // Pass
+			this.selectedCardId = this.cardWeights[0].cardId
 		} else {
 			var option = _.find(cardWeights, function(option) {
 				totalProbability += option.weight
